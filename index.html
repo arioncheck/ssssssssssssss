@@ -111,9 +111,7 @@
 
         <button onclick="updateSite()">Создать сайт</button>
         <div id="buttonsContainer" style="display: none;">
-            <a id="downloadLink" download="index.html" style="text-decoration: none;">
-                 <button>Скачать</button>
-            </a>
+            <button onclick="downloadHTML()">Скачать</button>
             <button onclick="openPreview()">Посмотреть результат</button>
         </div>
     </div>
@@ -181,10 +179,10 @@
                          white-space: pre-line;
                      }
                 </style>
-</head>
+            </head>
 <body>
                 <div class="content-container">
-                    <img src="${avatarUrlInput}" alt="Аватар" class="avatar">
+<img src="${avatarUrlInput}" alt="Аватар" class="avatar">
                     <h2>${titleInput}</h2>
                     <p>${infoInput}</p>
                 </div>
@@ -195,38 +193,37 @@
             newWindow.document.write(html);
         }
 
+       function downloadHTML() {
+        const backgroundImageInput = document.getElementById('backgroundImage').value;
+        const avatarUrlInput = document.getElementById('avatarUrl').value;
+        const titleInput = document.getElementById('title').value;
+        const infoInput = document.getElementById('info').value;
 
-         function generateHTML() {
-             const backgroundImageInput = document.getElementById('backgroundImage').value;
-             const avatarUrlInput = document.getElementById('avatarUrl').value;
-             const titleInput = document.getElementById('title').value;
-             const infoInput = document.getElementById('info').value;
+        const html = `
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Ваш сайт</title>
+            <style>
+                body {
+                    background-image: url("${backgroundImageInput}");
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-color: black;
+                    margin: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    font-family: monospace;
+                    color: white;
+                    transition: background-image 0.5s ease;
+                }
 
-             return `
-             <!DOCTYPE html>
-             <html lang="ru">
-             <head>
-                 <meta charset="UTF-8">
-                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                 <title>Ваш сайт</title>
-                 <style>
-                     body {
-                         background-image: url("${backgroundImageInput}");
-                         background-size: cover;
-                         background-repeat: no-repeat;
-                         background-position: center;
-                         background-color: black;
-                         margin: 0;
-                         display: flex;
-                         justify-content: center;
-                         align-items: center;
-                         min-height: 100vh;
-                         font-family: monospace;
-                         color: white;
-                         transition: background-image 0.5s ease;
-                     }
-
-                    .content-container {
+               .content-container {
                         background-color: rgba(255, 255, 255, 0.05);
                         padding: 15px;
                         border-radius: 15px;
@@ -241,32 +238,43 @@
                         align-items: center;
                         text-align: center;
                     }
-                     .avatar {
-                         width: 150px;
-                         height: 150px;
-                         border-radius: 10px;
-                         object-fit: cover;
-                         margin-bottom: 20px;
-                     }
-                     h2 {
-                         margin-bottom: 10px;
-                     }
-                    p {
-                          white-space: pre-line;
-                      }
-                 </style>
-             </head>
-             <body>
-                 <div class="content-container">
-                     <img src="${avatarUrlInput}" alt="Аватар" class="avatar">
-                     <h2>${titleInput}</h2>
-                     <p>${infoInput}</p>
-                 </div>
-             </body>
-             </html>
-             `;
+                .avatar {
+                        width: 150px;
+                        height: 150px;
+                        border-radius: 10px;
+                        object-fit: cover;
+                        margin-bottom: 20px;
+                        border: 1px solid white;
+                }
+                h2 {
+                    margin-bottom: 10px;
+                }
+                 p {
+                      white-space: pre-line;
+                  }
+            </style>
+        </head>
+        <body>
+            <div class="content-container">
+                <img src="${avatarUrlInput}" alt="Аватар" class="avatar">
+                <h2>${titleInput}</h2>
+                <p>${infoInput}</p>
+            </div>
+        </body>
+        </html>
+        `;
 
-         }
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
 
         function updateSite() {
             const backgroundImageInput = document.getElementById('backgroundImage').value;
@@ -274,18 +282,12 @@
             const titleInput = document.getElementById('title').value;
             const infoInput = document.getElementById('info').value;
 
-            if (backgroundImageInput && avatarUrlInput && titleInput && infoInput) {
-                document.getElementById('buttonsContainer').style.display = 'block';
-                const html = generateHTML();
-                 const dataUri = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-
-                const downloadLink = document.getElementById('downloadLink');
-                downloadLink.href = dataUri;
-
-            } else {
-                alert('Все поля должны быть заполнены');
-            }
-        }
+if (backgroundImageInput && avatarUrlInput && titleInput && infoInput) {
+    document.getElementById('buttonsContainer').style.display = 'block';
+} else {
+    alert('Все поля должны быть заполнены');
+}
+}
 </script>
 </body>
 </html>
