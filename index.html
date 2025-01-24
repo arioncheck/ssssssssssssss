@@ -20,17 +20,15 @@
         }
 
         .input-container {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            border: 1px solid #666666;
-            margin: 0 15px;
-            position: relative;
+            padding: 30px;
             backdrop-filter: blur(10px);
-            width: 700px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            box-sizing: border-box;
+            margin: 20px;
         }
 
         input {
@@ -121,7 +119,9 @@
 
         <button onclick="updateSite()">Создать сайт</button>
         <div id="buttonsContainer" style="display: none;">
-            <a id="downloadLink" download="index.html"><button>Скачать</button></a>
+            <a id="downloadLink" download="index.html">
+                <button>Скачать</button>
+            </a>
             <button onclick="openPreview()">Посмотреть результат</button>
             <p id="telegramWarning" style="display:none; color: yellow;">
                 Для скачивания откройте эту страницу в браузере по умолчанию (Chrome, Safari и т.д.)
@@ -147,7 +147,7 @@
                 <style>
                     body {
                         background-image: url("${backgroundImageInput}");
-                                background-size: cover;
+                        background-size: cover;
                         background-repeat: no-repeat;
                         background-position: center;
                         background-color: black;
@@ -184,9 +184,9 @@
                         object-fit: cover;
                         margin-bottom: 20px;
                         border: 1px solid white;
-                    }
+}
 
-                    h2{
+                    h2 {
                         margin-bottom: 10px;
                     }
 
@@ -288,12 +288,14 @@
                 </html>
                 `;
 
-                // Create the data URI
-                const dataUri = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-
+                // Create a Blob from the HTML
+                const blob = new Blob([html],{ type: 'text/html' });
+                // Create a URL for the Blob
+                const blobUrl = URL.createObjectURL(blob);
                 // Update the download link
                 const downloadLink = document.getElementById('downloadLink');
-                downloadLink.href = dataUri;
+                downloadLink.href = blobUrl;
+
 
                 document.getElementById('buttonsContainer').style.display = 'block';
             } else {
