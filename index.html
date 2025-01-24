@@ -277,9 +277,10 @@
             if (backgroundImageInput && avatarUrlInput && titleInput && infoInput) {
                 document.getElementById('buttonsContainer').style.display = 'block';
                 const html = generateHTML();
-                const blob = new Blob([html],{ type: 'text/html' });
+                 const dataUri = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+
                 const downloadLink = document.getElementById('downloadLink');
-                downloadLink.href = URL.createObjectURL(blob);
+                downloadLink.href = dataUri;
 
             } else {
                 alert('Все поля должны быть заполнены');
