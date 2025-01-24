@@ -22,20 +22,20 @@
             border-radius: 15px;
             padding: 30px;
             backdrop-filter: blur(10px);
-            text-align: left; /* Изменено на left */
             width: 80%;
             max-width: 600px;
             box-sizing: border-box;
             margin: 20px;
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
-         .input-container label {
-             margin-bottom: 5px;
-             font-size: 14px;
-             
+        .input-container label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-align: left;
         }
-         .input-container input, .input-container textarea {
+        .input-container input, .input-container textarea {
             margin-bottom: 15px;
         }
 
@@ -84,8 +84,7 @@
             align-items: center;
             margin-top: 20px;
         }
-
-         .content-container {
+        .content-container {
             background-color: rgba(255, 255, 255, 0.05);
             padding: 15px;
             border-radius: 15px;
@@ -95,16 +94,17 @@
             backdrop-filter: blur(10px);
             width: 700px;
             overflow: hidden;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
     </style>
 </head>
 <body>
     <h1>Создай свой сайт био без программирования</h1>
+    не работает через встроенный браузер тг
     <div class="input-container">
         <label for="backgroundImage">Ссылка на фон</label>
         <input type="text" id="backgroundImage" placeholder="Введите URL изображения">
@@ -113,19 +113,19 @@
         <input type="text" id="avatarUrl" placeholder="Введите URL изображения">
 
           <label for="title">Заголовок</label>
-        <input type="text" id="title" placeholder="Введите заголовок">
+        <input type="text" id="title" placeholder="Введите титл">
 
         <label for="info">Текст информации</label>
-        <textarea id="info" placeholder="Введите текст информации"></textarea>
+        <textarea id="info" placeholder="Введите текст"></textarea>
          
-         <label for="avatarBorderColor">Цвет обводки аватара и контейнера</label>
-        <input type="text" id="avatarBorderColor" placeholder="Введите цвет обводки (например: red, #ff0000, transparent)">
+         <label for="avatarGlowColor">Цвет свечения авы и контейнера</label>
+        <input type="text" id="avatarGlowColor" placeholder="Введите цвет свечения (например: red, #ff0000 по желанию)">
          
-        <label for="titleColor">Цвет текста заголовка</label>
-        <input type="text" id="titleColor" placeholder="Введите цвет текста заголовка (например: red, #ff0000, white)">
+        <label for="titleGlowColor">Цвет свечения титла</label>
+        <input type="text" id="titleGlowColor" placeholder="Введите цвет свечения (например: red, #ff0000 по желанию)">
 
-        <label for="textColor">Цвет обводки текста информации</label>
-        <input type="text" id="textColor" placeholder="Введите цвет обводки (например: red, #ff0000, transparent)">
+        <label for="textGlowColor">Цвет свечения текста инфы</label>
+        <input type="text" id="textGlowColor" placeholder="Введите цвет свечения (например: red, #ff0000 по желанию)">
         
         
          <button onclick="updateSite()">Создать сайт</button>
@@ -143,13 +143,13 @@
             const avatarUrlInput = document.getElementById('avatarUrl').value;
             const titleInput = document.getElementById('title').value;
             const infoInput = document.getElementById('info').value;
-            const avatarBorderColorInput = document.getElementById('avatarBorderColor').value;
-            const textColorInput = document.getElementById('textColor').value;
-            const titleColorInput = document.getElementById('titleColor').value;
+            const avatarGlowColorInput = document.getElementById('avatarGlowColor').value;
+            const textGlowColorInput = document.getElementById('textGlowColor').value;
+             const titleGlowColorInput = document.getElementById('titleGlowColor').value;
 
-             const avatarBorderColor = avatarBorderColorInput ? avatarBorderColorInput : '#666666';
-             const textColor = textColorInput ? textColorInput : 'transparent';
-              const titleColor = titleColorInput ? titleColorInput : 'white';
+             const avatarGlowColor = avatarGlowColorInput ? avatarGlowColorInput : 'transparent';
+             const textGlowColor = textGlowColorInput ? textGlowColorInput : 'transparent';
+             const titleGlowColor = titleGlowColorInput ? titleGlowColorInput : 'transparent';
 
             const html = `
             <!DOCTYPE html>
@@ -171,15 +171,15 @@
                         align-items: center;
                         min-height: 100vh;
                         font-family: monospace;
-                        color: white;
-                        transition: background-image 0.5s ease;
+color: white;
+transition: background-image 0.5s ease;
                     }
 
                     .content-container {
                         background-color: rgba(255, 255, 255, 0.05);
                         padding: 15px;
                         border-radius: 15px;
-                         border: 1px solid ${avatarBorderColor};
+                         border: 1px solid #666666;
                         margin: 0 15px;
                         position: relative;
                         backdrop-filter: blur(10px);
@@ -189,6 +189,7 @@
                         flex-direction: column;
                         align-items: center;
                         text-align: center;
+                         box-shadow: 0 0 5px ${avatarGlowColor};
                     }
                     .avatar {
                         width: 150px;
@@ -196,17 +197,18 @@
                         border-radius: 10px;
                         object-fit: cover;
                         margin-bottom: 20px;
-                         border: 1px solid ${avatarBorderColor};
+                         border: 1px solid #666666;
+                          box-shadow: 0 0 5px ${avatarGlowColor};
                     }
                      h2 {
                         margin-bottom: 10px;
-                        color: ${titleColor};
-                         font-size: 2em;
+                         font-size: 1.8em;
+                            text-shadow: 0 0 5px ${titleGlowColor};
                       }
                      p {
                          white-space: pre-line;
-                         -webkit-text-stroke: 0.5px ${textColor};
-                         font-size: 1.2em;
+                           text-shadow: 0 0 5px ${textGlowColor};
+                         font-size: 1.1em;
                      }
                 </style>
             </head>
@@ -228,13 +230,13 @@
         const avatarUrlInput = document.getElementById('avatarUrl').value;
         const titleInput = document.getElementById('title').value;
         const infoInput = document.getElementById('info').value;
-         const avatarBorderColorInput = document.getElementById('avatarBorderColor').value;
-          const textColorInput = document.getElementById('textColor').value;
-             const titleColorInput = document.getElementById('titleColor').value;
+         const avatarGlowColorInput = document.getElementById('avatarGlowColor').value;
+          const textGlowColorInput = document.getElementById('textGlowColor').value;
+           const titleGlowColorInput = document.getElementById('titleGlowColor').value;
 
-          const avatarBorderColor = avatarBorderColorInput ? avatarBorderColorInput : '#666666';
-            const textColor = textColorInput ? textColorInput : 'transparent';
-              const titleColor = titleColorInput ? titleColorInput : 'white';
+          const avatarGlowColor = avatarGlowColorInput ? avatarGlowColorInput : 'transparent';
+            const textGlowColor = textGlowColorInput ? textGlowColorInput : 'transparent';
+            const titleGlowColor = titleGlowColorInput ? titleGlowColorInput : 'transparent';
 
         const html = `
         <!DOCTYPE html>
@@ -262,10 +264,10 @@
 
                .content-container {
                         background-color: rgba(255, 255, 255, 0.05);
-                        padding: 15px;
+padding: 15px;
                         border-radius: 15px;
-                        border: 1px solid ${avatarBorderColor};
-margin: 0 15px;
+                        border: 1px solid #666666;
+                        margin: 0 15px;
                         position: relative;
                         backdrop-filter: blur(10px);
                         width: 700px;
@@ -274,6 +276,7 @@ margin: 0 15px;
                         flex-direction: column;
                         align-items: center;
                         text-align: center;
+                        box-shadow: 0 0 5px ${avatarGlowColor};
                     }
                 .avatar {
                         width: 150px;
@@ -281,17 +284,18 @@ margin: 0 15px;
                         border-radius: 10px;
                         object-fit: cover;
                         margin-bottom: 20px;
-                        border: 1px solid ${avatarBorderColor};
+                        border: 1px solid #666666;
+                        box-shadow: 0 0 5px ${avatarGlowColor};
                 }
                  h2 {
                         margin-bottom: 10px;
-                        color: ${titleColor};
-                         font-size: 2em;
+                        font-size: 1.8em;
+                        text-shadow: 0 0 5px ${titleGlowColor};
                     }
                  p {
                       white-space: pre-line;
-                      -webkit-text-stroke: 0.5px ${textColor};
-                      font-size: 1.2em;
+                       text-shadow: 0 0 5px ${textGlowColor};
+                      font-size: 1.1em;
                   }
             </style>
         </head>
