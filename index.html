@@ -111,7 +111,9 @@
 
         <button onclick="updateSite()">Создать сайт</button>
         <div id="buttonsContainer" style="display: none;">
-            <button onclick="downloadHTML()">Скачать</button>
+            <a id="downloadLink" download="index.html" style="text-decoration: none;">
+                 <button>Скачать</button>
+            </a>
             <button onclick="openPreview()">Посмотреть результат</button>
         </div>
     </div>
@@ -179,7 +181,7 @@
                          white-space: pre-line;
                      }
                 </style>
-            </head>
+</head>
 <body>
                 <div class="content-container">
                     <img src="${avatarUrlInput}" alt="Аватар" class="avatar">
@@ -193,13 +195,14 @@
             newWindow.document.write(html);
         }
 
-         function downloadHTML() {
+
+         function generateHTML() {
              const backgroundImageInput = document.getElementById('backgroundImage').value;
              const avatarUrlInput = document.getElementById('avatarUrl').value;
              const titleInput = document.getElementById('title').value;
              const infoInput = document.getElementById('info').value;
 
-             const html = `
+             return `
              <!DOCTYPE html>
              <html lang="ru">
              <head>
@@ -263,15 +266,7 @@
              </html>
              `;
 
-            const blob = new Blob([html], { type: 'text/html' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'index.html';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
          }
-
 
         function updateSite() {
             const backgroundImageInput = document.getElementById('backgroundImage').value;
@@ -279,12 +274,17 @@
             const titleInput = document.getElementById('title').value;
             const infoInput = document.getElementById('info').value;
 
-if (backgroundImageInput && avatarUrlInput && titleInput && infoInput) {
-    document.getElementById('buttonsContainer').style.display = 'block';
-} else {
-    alert('Все поля должны быть заполнены');
-}
-}
+            if (backgroundImageInput && avatarUrlInput && titleInput && infoInput) {
+                document.getElementById('buttonsContainer').style.display = 'block';
+                const html = generateHTML();
+                const blob = new Blob([html],{ type: 'text/html' });
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = URL.createObjectURL(blob);
+
+            } else {
+                alert('Все поля должны быть заполнены');
+            }
+        }
 </script>
 </body>
 </html>
